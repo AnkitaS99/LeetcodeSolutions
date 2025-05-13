@@ -1,0 +1,36 @@
+class Solution {
+public:
+    const int MOD = 1e9 + 7;
+
+    int lengthAfterTransformations(string s, int t) {
+        // Frequency count of each character 'a' to 'z'
+        vector<long long> freq(26, 0);
+        for (char ch : s) {
+            freq[ch - 'a']++;
+        }
+
+        // Perform t transformations
+        for (int step = 0; step < t; ++step) {
+            vector<long long> nextFreq(26, 0);
+            for (int i = 0; i < 26; ++i) {
+                if (i < 25) {
+                    // 'a' to 'y' → next character
+                    nextFreq[i + 1] = (nextFreq[i + 1] + freq[i]) % MOD;
+                } else {
+                    // 'z' → "ab"
+                    nextFreq[0] = (nextFreq[0] + freq[i]) % MOD;  // 'a'
+                    nextFreq[1] = (nextFreq[1] + freq[i]) % MOD;  // 'b'
+                }
+            }
+            freq = nextFreq;
+        }
+
+        // Sum all frequencies to get the total length
+        long long result = 0;
+        for (int i = 0; i < 26; ++i) {
+            result = (result + freq[i]) % MOD;
+        }
+
+        return static_cast<int>(result);
+    }
+};
