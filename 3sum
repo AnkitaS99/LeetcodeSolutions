@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        int n = nums.size();
+        set<vector<int>> uniqueTriplets;
+        sort(nums.begin(), nums.end()); // Helps skip duplicates and sort triplets
+
+        for (int i = 0; i < n - 2; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) continue; // skip duplicate i
+
+            unordered_set<int> seen;
+            for (int j = i + 1; j < n; j++) {
+                int complement = -nums[i] - nums[j];
+                if (seen.count(complement)) {
+                    vector<int> triplet = {nums[i], complement, nums[j]};
+                    sort(triplet.begin(), triplet.end());
+                    uniqueTriplets.insert(triplet);
+                    // Skip duplicate nums[j]
+                    while (j + 1 < n && nums[j] == nums[j + 1]) j++;
+                }
+                seen.insert(nums[j]);
+            }
+        }
+
+        return vector<vector<int>>(uniqueTriplets.begin(), uniqueTriplets.end());
+    }
+};
