@@ -1,0 +1,35 @@
+class Solution {
+public:
+    bool isValid(std::string str) {
+        int count1 = std::count(str.begin(), str.end(), '(');
+        int count2 = std::count(str.begin(), str.end(), ')');
+        int count3 = std::count(str.begin(), str.end(), '{');
+        int count4 = std::count(str.begin(), str.end(), '}');
+        int count5 = std::count(str.begin(), str.end(), '[');
+        int count6 = std::count(str.begin(), str.end(), ']');
+
+        if (count1 == count2 && count3 == count4 && count5 == count6) {
+
+            std::stack<char> s;
+
+            for (char ch : str) {
+                if (ch == '(' || ch == '{' || ch == '[') {
+                    s.push(ch);
+                } else {
+                    if (s.empty()) return false;
+
+                    char top = s.top();
+                    if ((ch == ')' && top == '(') ||
+                        (ch == '}' && top == '{') ||
+                        (ch == ']' && top == '[')) {
+                        s.pop();
+                    } else {
+                        return false; 
+                    }
+                }
+            }
+            return s.empty();
+        }
+        return false;
+    }
+};
