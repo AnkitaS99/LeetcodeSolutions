@@ -1,0 +1,35 @@
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        int n = strs.size();
+        vector<pair<string, string>> sortedPairs;
+
+        for (string s : strs) {
+            string sorted = s;
+            sort(sorted.begin(), sorted.end());
+            sortedPairs.push_back({sorted, s});
+        }
+
+        sort(sortedPairs.begin(), sortedPairs.end());
+        vector<vector<string>> result;
+        vector<string> currentGroup;
+
+        for (int i = 0; i < n; ++i) {
+            if (i == 0 || sortedPairs[i].first == sortedPairs[i - 1].first)
+             {
+                currentGroup.push_back(sortedPairs[i].second);
+            } 
+            else
+             {
+                result.push_back(currentGroup);
+                currentGroup = {sortedPairs[i].second};
+            }
+        }
+
+        if (!currentGroup.empty()) {
+            result.push_back(currentGroup);
+        }
+
+        return result;
+    }
+};
