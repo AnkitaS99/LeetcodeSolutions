@@ -1,0 +1,29 @@
+class MedianFinder {
+private:
+    std::vector<int> data; 
+
+public:
+    MedianFinder() { 
+    }
+    
+    void addNum(int num) {
+        int left = 0, right = data.size();
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (data[mid] < num)
+                left = mid + 1;
+            else
+                right = mid;
+        }
+        data.insert(data.begin() + left, num); 
+    }
+    
+    double findMedian() {
+        int n = data.size();
+        if (n % 2 == 1) {
+            return data[n / 2];
+        } else {
+            return (data[n / 2 - 1] + data[n / 2]) / 2.0;
+        }
+    }
+};
