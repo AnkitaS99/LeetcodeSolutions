@@ -1,0 +1,34 @@
+class Solution {
+    public int strStr(String haystack, String needle) {
+           if (needle.length() == 0) return 0; 
+            if (needle.length() > haystack.length()) 
+              return -1;
+
+       
+        int[] needleFreq = new int[256]; 
+        for (char c : needle.toCharArray()) {
+            needleFreq[c]++;
+        }
+
+        int windowSize = needle.length();
+        int[] windowFreq = new int[256];
+
+        for (int i = 0; i < windowSize; i++) {
+            windowFreq[haystack.charAt(i)]++;
+        }
+
+        for (int i = 0; i <= haystack.length() - windowSize; i++) {
+            if (Arrays.equals(needleFreq, windowFreq)) {
+                if (haystack.substring(i, i + windowSize).equals(needle)) {
+                    return i;
+                }
+            }
+
+            if (i + windowSize < haystack.length()) {
+                windowFreq[haystack.charAt(i)]--;
+                windowFreq[haystack.charAt(i + windowSize)]++;
+            }
+        }
+        return -1;  
+    }
+}
